@@ -3,8 +3,8 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     Campground = require("./models/campgrounds"),
-    Comment = require("./models/comments")
-seedDB = require("./seeds")
+    Comment = require("./models/comments"),
+    seedDB = require("./seeds")
 
 seedDB();
 mongoose.connect("mongodb://localhost:27017/yelpcamp", {
@@ -12,6 +12,7 @@ mongoose.connect("mongodb://localhost:27017/yelpcamp", {
 })
 
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({
     extended: true
 }));

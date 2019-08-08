@@ -21,7 +21,7 @@ var data  = [{
 
 function seedDb() {
     // Remove all campgrounds
-    Campgrounds.remove({}, (err) => {
+    Campgrounds.deleteMany({}, (err) => {
         // Add a few campgrounds
         data.forEach((campground) => {
             Campgrounds.create(campground, (err, campground) => {
