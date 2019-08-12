@@ -27,19 +27,19 @@ function seedDb() {
             Campgrounds.create(campground, (err, campground) => {
                 if (err) {
                     console.log(err)
-                } else {
-                    // Create a coomment
-                    Comments.create({
-                        text: "This place is great",
-                        author: "Colt"
-                    }, (err, comment) => {
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            campground.comments.push(comment);
-                            campground.save();
-                        }
-                    })
+                // } else {
+                //     // Create a coomment
+                //     Comments.create({
+                //         text: "This place is great",
+                //         author: "Colt"
+                //     }, (err, comment) => {
+                //         if (err) {
+                //             console.log(err);
+                //         } else {
+                //             campground.comments.push(comment);
+                //             campground.save();
+                //         }
+                //     })
                 }
             })
         });
