@@ -28,7 +28,8 @@ router.post("/", isLoggedIn, (req, res) => {
                 } else {
                     comment.author.id = req.user._id;
                     comment.author.username = req.user.username;
-                    // comment.save();
+                    // after making a change in the newly created comment, we need to save it to the DB, so use .save()
+                    comment.save();
                     campground.comments.push(comment)
                     campground.save();
                     res.redirect("/campgrounds/" + req.params.id)

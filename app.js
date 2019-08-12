@@ -3,7 +3,8 @@ var express = require("express"),
     bodyParser = require("body-parser"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
-    expressSession = require("express-session")
+    expressSession = require("express-session"),
+    methodOverride = require("method-override"),
     User = require("./models/users")
     mongoose = require("mongoose"),
     Campground = require("./models/campgrounds"),
@@ -26,6 +27,8 @@ app.use(express.static(__dirname + "/public"))
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+// using method-overide for PUT and DELETE request
+app.use(methodOverride("_method"));
 
 
 // passport configuration
@@ -46,10 +49,12 @@ app.use((req, res, next) => {
     next();
 })
 
+// using the route files
 app.use(indexRoutes);
 app.use("/campgrounds/:id/comments", commentRoutes);
 app.use("/campgrounds", campgroundRoutes)
 
+// starting the server
 app.listen(3000, () => {
     console.log("Serving Yelpcamp at port 3000...")
 });
