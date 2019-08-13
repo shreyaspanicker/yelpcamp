@@ -6,7 +6,7 @@ var Campground = require("../models/campgrounds");
 var Comment = require("../models/comments")
 
 // new comment form
-router.get("/new", isLoggedIn, (req, res) => {
+router.get("/new", middleware.isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
             console.log(err);
@@ -19,7 +19,7 @@ router.get("/new", isLoggedIn, (req, res) => {
 })
 
 // comment create
-router.post("/", isLoggedIn, (req, res) => {
+router.post("/", middleware.isLoggedIn, (req, res) => {
     Campground.findById(req.params.id, (err, campground) => {
         if (err) {
             console.log(err);
@@ -42,7 +42,7 @@ router.post("/", isLoggedIn, (req, res) => {
 });
 
 // edit comment form
-router.get("/:comment_id/edit", checkCommentOwnership, (req, res) => {
+router.get("/:comment_id/edit", middleware.checkCommentOwnership, (req, res) => {
     Comment.findById(req.params.comment_id, (err, foundComment) => {
         if (err) {
             res.redirect("back")
@@ -56,7 +56,7 @@ router.get("/:comment_id/edit", checkCommentOwnership, (req, res) => {
 })
 
 //update comment route
-router.put("/:comment_id", checkCommentOwnership, (req, res) => {
+router.put("/:comment_id", middleware.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, (err, updatedComment) => {
         if (err) {
             res.redirect("back");
@@ -67,7 +67,7 @@ router.put("/:comment_id", checkCommentOwnership, (req, res) => {
 });
 
 // destroy comment route
-router.delete("/:comment_id", checkCommentOwnership, (req, res) => {
+router.delete("/:comment_id", middleware.checkCommentOwnership, (req, res) => {
     Comment.findByIdAndDelete(req.params.comment_id, (err, deletedComment) => {
         if(err) {
             res.redirect("back");
@@ -76,33 +76,5 @@ router.delete("/:comment_id", checkCommentOwnership, (req, res) => {
         }
     });
 })
-
-// middlewares
-function checkCommentOwnership(req, res, next) {
-    if (req.isAuthenticated()) {
-        Comment.findById(req.params.comment_id, (err, foundComment) => {
-            if (err) {
-                // will redirect to previous route
-                res.redirect("back")
-            } else {
-                //foundCampground.author.id is a mongoose object and req.user._id is a string, so .equals()
-                if (foundComment.author.id.equals(req.user._id)) {
-                    next();
-                } else {
-                    res.redirect("back")
-                }
-            }
-        })
-    } else {
-        res.redirect("back")
-    }
-}
-
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login");
-}
 
 module.exports = router;
