@@ -4,16 +4,15 @@ var Campground = require("../models/campgrounds")
 var Comment = require("../models/comments");
 var middleware = require("../middleware")
 
-// index route
-router.get("/", (req, res) => {
-    Campground.find({}, (err, allcampgrounds) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.render("campgrounds/index", {
-                campGrounds: allcampgrounds
-            })
-        }
+//INDEX - show all campgrounds
+router.get("/", function(req, res){
+    // Get all campgrounds from DB
+    Campground.find({}, function(err, allCampgrounds){
+       if(err){
+           console.log(err);
+       } else {
+          res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+       }
     });
 });
 

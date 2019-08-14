@@ -8,10 +8,15 @@ router.get("/", (req, res) => {
     res.render("landing")
 });
 
-// register form
-router.get("/register", (req, res) => {
-    res.render("register");
-})
+// show register form
+router.get("/register", function(req, res){
+    res.render("register", {page: 'register'}); 
+ });
+ 
+ //show login form
+ router.get("/login", function(req, res){
+    res.render("login", {page: 'login'}); 
+ });
 
 // to register
 router.post("/register", (req, res) => {
@@ -20,6 +25,7 @@ router.post("/register", (req, res) => {
     })
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
+            console.log(err);
             return res.render("register",{ error: err.message});
         } else {
             passport.authenticate("local")(req, res, () => {
@@ -28,11 +34,6 @@ router.post("/register", (req, res) => {
             });
         }
     });
-})
-
-// login form
-router.get("/login", (req, res) => {
-    res.render("login");
 })
 
 // to login
