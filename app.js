@@ -5,8 +5,9 @@ var express = require("express"),
     LocalStrategy = require("passport-local"),
     expressSession = require("express-session"),
     methodOverride = require("method-override"),
-    User = require("./models/users")
+    flash = require("connect-flash"),
     mongoose = require("mongoose"),
+    User = require("./models/users")
     Campground = require("./models/campgrounds"),
     Comment = require("./models/comments"),
     seedDB = require("./seeds")
@@ -29,6 +30,8 @@ app.use(bodyParser.urlencoded({
 }));
 // using method-overide for PUT and DELETE request
 app.use(methodOverride("_method"));
+// using flash
+app.use(flash());
 
 
 // passport configuration
@@ -43,9 +46,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// assigining the currentUser variable on each route
+// assigining the variables on each route
 app.use((req, res, next) => {
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error")
+    res.locals.success = req.flash("success")
     next();
 })
 

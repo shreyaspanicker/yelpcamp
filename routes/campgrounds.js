@@ -24,12 +24,13 @@ router.get("/new", middleware.isLoggedIn, (req, res) => {
 
 // one campground show
 router.get("/:id", (req, res) => {
-    Campground.findById(req.params.id).populate("comments").exec((err, result) => {
-        if (err) {
-            console.log(err);
+    Campground.findById(req.params.id).populate("comments").exec((err, foundCampground) => {
+        if (err || !foundCampground) {
+            req.flash("error", "Campground not found");
+            res.redirect("back")
         } else {
             res.render("campgrounds/show", {
-                campground: result
+                campground: foundCampground
             })
         }
     });
@@ -44,7 +45,8 @@ router.post("/", middleware.isLoggedIn, (req, res) => {
         author: {
             id: req.user._id,
             username: req.user.username
-        }
+        },
+        price: req.body.price
     }, (err, result) => {
         if (err) {
             console.log(err);
