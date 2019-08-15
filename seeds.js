@@ -9,7 +9,8 @@ var data  = [{
         author: {
             id : "5d4c5266d7fbf808e65443c7",
             username : "Cyril"
-        }
+        },
+        price : 12
     },
     {
         name: "Idukki",
@@ -18,7 +19,8 @@ var data  = [{
         author :  {
             id : "5d4c4b303d40dc074ed20092",
             username : "Shreyas"
-        }
+        },
+        price : 15
     },
     {
         name: "Vagamon",
@@ -27,7 +29,8 @@ var data  = [{
         author :  {
             id : "5d4c4b303d40dc074ed20092",
             username : "Shreyas"
-        }
+        },
+        price : 13.50
     }
 ]
 
