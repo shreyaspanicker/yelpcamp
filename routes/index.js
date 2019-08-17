@@ -23,13 +23,16 @@ router.post("/register", (req, res) => {
     var newUser = new User({
         username: req.body.username
     })
+    if(req.body.adminCode === "secretCode1995") {
+        newUser.isAdmin = true;
+    }
     User.register(newUser, req.body.password, (err, user) => {
         if (err) {
             console.log(err);
             return res.render("register",{ error: err.message});
         } else {
             passport.authenticate("local")(req, res, () => {
-                req.flash("success", "Welcome to Yelpcamp"+ user.username)
+                req.flash("success", "Welcome to Yelpcamp "+ user.username)
                 res.redirect("/campgrounds");
             });
         }

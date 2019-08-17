@@ -14,7 +14,10 @@ var express = require("express"),
 
 var campgroundRoutes = require("./routes/campgrounds"),
     commentRoutes = require("./routes/comments"),
-    indexRoutes = require("./routes/index")
+    indexRoutes = require("./routes/index");
+
+// to get moment in every route 
+app.locals.moment = require("moment");
 
 // dummy data fill
 seedDB();
